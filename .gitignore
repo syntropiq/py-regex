@@ -1,0 +1,18 @@
+# Node/Bun dependencies
+node_modules/
+bun.lock
+# Build artifacts
+dist/
+.cache/
+.vitest/
+coverage/
+# IDE/editor
+.vscode/
+.DS_Store
+*.log
+# Cloudflare/worker
+wrangler-state/
+wrangler.toml
+# Misc
+*.swp
+*.tmp

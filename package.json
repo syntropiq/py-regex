@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "@syntropiq/libpcre-ts": "^1.0.2"
+  },
+  "devDependencies": {
+    "@cloudflare/vitest-pool-workers": "^0.8.36",
+    "vitest": "~3.1.0"
+  }
+}

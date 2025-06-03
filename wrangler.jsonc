@@ -1,0 +1,9 @@
+{
+  "name": "py-regex",
+  "main": "src/index.ts",
+  "compatibility_date": "2024-06-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "tests": {
+    "test_glob": "./__tests__/**/*.test.ts"
+  }
+}
