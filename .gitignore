@@ -2,7 +2,6 @@
 node_modules/
 bun.lock
 # Build artifacts
-dist/
 .cache/
 .vitest/
 coverage/
