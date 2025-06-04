@@ -1,14 +1,22 @@
 import { PCRE, PCRERegex, PCREMatch } from '@syntropiq/libpcre-ts';
 
 let _pcreInstance: any = null;
+let _initPromise: Promise<any> | null = null;
 
 /**
  * Get or create the singleton PCRE instance
  */
 async function getPCREInstance(): Promise<any> {
   if (!_pcreInstance) {
-    _pcreInstance = new PCRE();
-    await _pcreInstance.init();
+    if (!_initPromise) {
+      _initPromise = (async () => {
+        const pcre = new PCRE();
+        await pcre.init();
+        _pcreInstance = pcre;
+        return pcre;
+      })();
+    }
+    await _initPromise;
   }
   return _pcreInstance;
 }
@@ -37,7 +45,11 @@ export async function compileRegex(pattern: string): Promise<PCRERegex> {
   const anchoredPattern = pcrePattern.startsWith('^') ? pcrePattern : '^' + pcrePattern;
   const finalPattern = anchoredPattern.endsWith('$') ? anchoredPattern : anchoredPattern + '$';
   
-  return pcre.compile(finalPattern, opts);
+  try {
+    return pcre.compile(finalPattern, opts);
+  } catch (error: any) {
+    throw new Error(`Failed to compile regex pattern '${pattern}': ${error?.message || error}`);
+  }
 }
 
 /**
@@ -53,5 +65,9 @@ export async function compileRegexPartial(pattern: string): Promise<PCRERegex> {
   // Use UTF8 option but not ANCHORED for partial matching
   const opts = pcre.constants.UTF8;
   
-  return pcre.compile(pcrePattern, opts);
+  try {
+    return pcre.compile(pcrePattern, opts);
+  } catch (error: any) {
+    throw new Error(`Failed to compile regex pattern '${pattern}': ${error?.message || error}`);
+  }
 }
