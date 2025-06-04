@@ -1,5 +1,4 @@
-import type { PCRERegex } from './types.js';
-import { PCRE } from '@syntropiq/libpcre-ts';
+import { PCRE, PCRERegex, PCREMatch } from '@syntropiq/libpcre-ts';
 
 let _pcreInstance: any = null;
 

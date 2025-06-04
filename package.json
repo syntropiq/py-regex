@@ -1,9 +1,32 @@
 {
+  "name": "@syntropiq/py-regex",
+  "version": "1.0.0",
+  "description": "Python-compatible regular expressions for TypeScript/JavaScript, mirroring Python's re/regex API.",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/syntropiq/py-regex"
+  },
+  "author": "Syntropiq",
+  "license": "MIT",
+  "keywords": [
+    "regex",
+    "python",
+    "pcre",
+    "typescript",
+    "javascript",
+    "re",
+    "regular-expressions"
+  ],
   "dependencies": {
-    "@syntropiq/libpcre-ts": "^1.0.2"
+    "@syntropiq/libpcre-ts": "github:syntropiq/libpcre-ts"
   },
   "devDependencies": {
     "@cloudflare/vitest-pool-workers": "^0.8.36",
     "vitest": "~3.1.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
