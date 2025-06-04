@@ -5,11 +5,11 @@ import { regex } from '../src/regex';
 // Helper for async pattern compilation
 describe('py-regex: Python compatibility', () => {
   it('should escape special characters like Python', () => {
-    expect(regex.escape('Ala. Admin. Code')).toBe('Ala\.\ Admin\.\ Code');
-    expect(regex.escape('a.b*c')).toBe('a\.b\*c');
-    expect(regex.escape('test[abc]')).toBe('test\[abc\]');
-    expect(regex.escape('$100')).toBe('\$100');
-    expect(regex.escape('foo bar')).toBe('foo\ bar');
+    expect(regex.escape('Ala. Admin. Code')).toBe('Ala\\.\\ Admin\\.\\ Code');
+    expect(regex.escape('a.b*c')).toBe('a\\.b\\*c');
+    expect(regex.escape('test[abc]')).toBe('test\\[abc\\]');
+    expect(regex.escape('$100')).toBe('\\$100');
+    expect(regex.escape('foo bar')).toBe('foo\\ bar');
   });
 
   it('should match using named groups and fullmatch semantics', async () => {
@@ -37,9 +37,9 @@ describe('py-regex: Python compatibility', () => {
     // Use the lower-level API for partial match
     const { compileRegexPartial } = await import('../src/compile');
     const regexPartial = await compileRegexPartial('foo');
-    expect(regexPartial.test('foobar')).toBe(true);
-    expect(regexPartial.test('foo')).toBe(true);
-    expect(regexPartial.test('bar')).toBe(false);
+    expect(regexPartial.test('foobar', 0)).toBe(true);
+    expect(regexPartial.test('foo', 0)).toBe(true);
+    expect(regexPartial.test('bar', 0)).toBe(false);
   });
 
   it('should support multiple named groups and access by name', async () => {

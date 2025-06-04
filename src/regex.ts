@@ -65,7 +65,7 @@ async function compile(pattern: string, flags?: string): Promise<Pattern> {
       return makeMatch(m, namedGroups);
     },
     test(text: string) {
-      return regex.test(text);
+      return regex.test(text, 0);
     },
   };
 }

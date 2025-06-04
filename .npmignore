@@ -1,0 +1,29 @@
+# Source files (we only want to publish dist/)
+src/
+__tests__/
+
+# Development files
+tsconfig.json
+vitest.config.ts
+.gitignore
+
+# Logs and temp files
+*.log
+*.tmp
+*.swp
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+
+# Coverage and test artifacts
+coverage/
+.vitest/
+
+# Lock files (let users choose their package manager)
+bun.lock
+package-lock.json
+yarn.lock

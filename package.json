@@ -2,12 +2,24 @@
   "name": "@syntropiq/py-regex",
   "version": "1.0.0",
   "description": "Python-compatible regular expressions for TypeScript/JavaScript, mirroring Python's re/regex API.",
-  "main": "src/index.ts",
-  "types": "src/index.ts",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/syntropiq/py-regex"
   },
+  "bugs": {
+    "url": "https://github.com/syntropiq/py-regex/issues"
+  },
+  "homepage": "https://github.com/syntropiq/py-regex#readme",
   "author": "Syntropiq",
   "license": "MIT",
   "keywords": [
@@ -17,13 +29,22 @@
     "typescript",
     "javascript",
     "re",
-    "regular-expressions"
+    "regular-expressions",
+    "named-groups"
   ],
   "dependencies": {
     "@syntropiq/libpcre-ts": "latest"
   },
   "devDependencies": {
-    "vitest": "~3.1.0"
+    "vitest": "latest",
+    "typescript": "latest"
+  },
+  "scripts": {
+    "build": "bun run clean && bun run build:esm",
+    "build:esm": "bunx tsc",
+    "test": "vitest",
+    "clean": "rm -rf dist",
+    "prepublishOnly": "bun run build && bun run test"
   },
   "publishConfig": {
     "access": "public"

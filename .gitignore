@@ -5,6 +5,7 @@ bun.lock
 .cache/
 .vitest/
 coverage/
+dist/
 # IDE/editor
 .vscode/
 .DS_Store
