@@ -1,6 +1,6 @@
 // Comprehensive tests for compilation functionality
 import { describe, it, expect } from 'vitest';
-import { compileRegex, compileRegexPartial, convertNamedGroups } from '../src/compile';
+import { compileRegex, compileRegexPartial, compileRegexAnchored, convertNamedGroups } from '../src/compile';
 
 describe('Compilation Functionality', () => {
   describe('convertNamedGroups()', () => {

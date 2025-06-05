@@ -1,5 +1,5 @@
 // Pythonic regex API wrapper for py-regex
-import { compileRegex, compileRegexPartial, convertNamedGroups } from './compile';
+import { compileRegex, compileRegexPartial, compileRegexAnchored, convertNamedGroups } from './compile';
 import { escapeRegex } from './escape';
 
 export interface Match {
@@ -42,6 +42,7 @@ async function compile(pattern: string, flags?: string): Promise<Pattern> {
   // TODO: support flags
   const fullmatchRegex = await compileRegex(pattern);
   const partialRegex = await compileRegexPartial(pattern);
+  const anchoredRegex = await compileRegexAnchored(pattern);
   const namedGroups = fullmatchRegex.getNamedGroups() || {};
   
   return {
@@ -51,15 +52,13 @@ async function compile(pattern: string, flags?: string): Promise<Pattern> {
       return makeMatch(m, namedGroups);
     },
     match(text: string) {
-      const m = partialRegex.exec(text);
+      // Use anchored regex for position-exact matching at start of string
+      const m = anchoredRegex.exec(text, 0);
       if (!m) return null;
-      // Match must start at index 0
-      if (m[0] && m[0].index === 0) {
-        return makeMatch(m, namedGroups);
-      }
-      return null;
+      return makeMatch(m, namedGroups);
     },
     search(text: string) {
+      // Use partial regex for finding matches anywhere in string
       const m = partialRegex.exec(text);
       if (!m) return null;
       return makeMatch(m, namedGroups);
