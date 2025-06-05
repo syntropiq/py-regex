@@ -99,21 +99,21 @@ describe('Compilation Functionality', () => {
     });
   });
 
-  describe('compileRegexPartial() - partial matching', () => {
-    it('should allow partial matches', async () => {
+  describe('compileRegexPartial() - partial matching for search', () => {
+    it('should allow finding matches anywhere for search functionality', async () => {
       const regex = await compileRegexPartial('\\d+');
-      expect(regex.test('123', 0)).toBe(true);
-      expect(regex.test('abc123', 0)).toBe(false); // Doesn't start at position 0
-      expect(regex.test('abc123', 3)).toBe(true); // Matches at position 3
-      expect(regex.test('123abc', 0)).toBe(true); // Matches at start
+      expect(regex.exec('123')).not.toBeNull(); // Should find match
+      expect(regex.exec('abc123')).not.toBeNull(); // Should find match anywhere
+      expect(regex.exec('123abc')).not.toBeNull(); // Should find match at start
+      expect(regex.exec('no digits')).toBeNull(); // Should not find match
     });
 
-    it('should work without automatic anchoring', async () => {
+    it('should work without anchoring for search functionality', async () => {
       const regex = await compileRegexPartial('test');
-      expect(regex.test('test', 0)).toBe(true);
-      expect(regex.test('testing', 0)).toBe(true);
-      expect(regex.test('pretest', 0)).toBe(false); // Doesn't start at 0
-      expect(regex.test('pretest', 3)).toBe(true); // Matches at position 3
+      expect(regex.exec('test')).not.toBeNull();
+      expect(regex.exec('testing')).not.toBeNull();
+      expect(regex.exec('pretest')).not.toBeNull(); // Should find anywhere
+      expect(regex.exec('no match')).toBeNull();
     });
 
     it('should handle named groups in partial mode', async () => {
@@ -145,15 +145,14 @@ describe('Compilation Functionality', () => {
       const regex2 = await compileRegexPartial('test$');
       
       // ^ should still anchor to start of string
-      expect(regex1.test('test', 0)).toBe(true);
-      expect(regex1.test('testing', 0)).toBe(true);
-      expect(regex1.test('pretest', 0)).toBe(false);
+      expect(regex1.exec('test')).not.toBeNull();
+      expect(regex1.exec('testing')).not.toBeNull();
+      expect(regex1.exec('pretest')).toBeNull();
       
       // $ should still anchor to end of string
-      expect(regex2.test('test', 0)).toBe(true);
-      expect(regex2.test('pretest', 0)).toBe(false); // Starts at wrong position
-      expect(regex2.test('pretest', 3)).toBe(true); // Matches at end
-      expect(regex2.test('testing', 0)).toBe(false); // Doesn't end with 'test'
+      expect(regex2.exec('test')).not.toBeNull();
+      expect(regex2.exec('pretest')).not.toBeNull(); // Should find 'test' at end
+      expect(regex2.exec('testing')).toBeNull(); // Doesn't end with 'test'
     });
   });
 
